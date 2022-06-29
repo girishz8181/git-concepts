@@ -291,18 +291,5 @@ Author: girishz8181 <girishz8181@gmail.com>
 Date:   Wed Jun 29 05:41:02 2022 +0530
 $ git switch master
 Switched to branch 'master'
-$ ls
-first.txt  second.txt
-$ wget https://github.com/girishz8181/git-concepts/blob/main/README.md
---2022-06-29 06:29:18--  https://github.com/girishz8181/git-concepts/blob/main/README.md
-Resolving github.com (github.com)... 13.234.210.38
-Connecting to github.com (github.com)|13.234.210.38|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: unspecified [text/html]
-Saving to: ‘README.md’
-
-README.md               [ <=>               ] 132.97K  --.-KB/s    in 0.1s    
-
-2022-06-29 06:29:18 (1.10 MB/s) - ‘README.md’ saved [136166]
 
 $
