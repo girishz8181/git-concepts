@@ -1,0 +1,308 @@
+$ git init
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: is subject to change. To configure the initial branch name to use in all
+hint: of your new repositories, which will suppress this warning, call:
+hint: 
+hint: 	git config --global init.defaultBranch <name>
+hint: 
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint: 
+hint: 	git branch -m <name>
+Initialized empty Git repository in /home/giri/Projects/git-task/.git/
+$ touch first.txt
+$ git add first.txt 
+$ git commit -m "First commit"
+[master (root-commit) f399d82] First commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 first.txt
+$ touch second.txt
+$ git add second.txt 
+$ git commit -m "Second commit"
+[master e3335d0] Second commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 second.txt
+$ git checkout -b ffbranch
+Switched to a new branch 'ffbranch'
+$ git branch -l
+* ffbranch
+  master
+$ echo "My 1st File" > first.txt 
+$ git add first.txt 
+$ git commit -m "FF branch commit first.txt"
+[ffbranch 19e15d9] FF branch commit first.txt
+ 1 file changed, 1 insertion(+)
+$ echo "My 2nd File" > second.txt 
+$ git add second.txt 
+$ git commit -m "FF branch commit second.txt"
+[ffbranch ce602f9] FF branch commit second.txt
+ 1 file changed, 1 insertion(+)
+$ git switch main
+fatal: invalid reference: main
+$ git switch master
+Switched to branch 'master'
+$ git branch -l
+  ffbranch
+* master
+$ git merge ffbranch
+Updating e3335d0..ce602f9
+Fast-forward
+ first.txt  | 1 +
+ second.txt | 1 +
+ 2 files changed, 2 insertions(+)
+$ git commit --amend -m "First Merge from FF branch to main"
+[master a697591] First Merge from FF branch to main
+ Date: Wed Jun 29 05:35:36 2022 +0530
+ 1 file changed, 1 insertion(+)
+$ git checkout -b dvbranch
+Switched to a new branch 'dvbranch'
+$ git branch -l
+* dvbranch
+  ffbranch
+  master
+$ echo "dvbranch 1st first file" >> first.txt
+$ git add first.txt 
+$ git commit -m "DV branch commit first.txt"
+[dvbranch 4f608c5] DV branch commit first.txt
+ 1 file changed, 1 insertion(+)
+$ echo "dvbranch 1st line 2nd file" >> second.txt 
+$ git add second.txt 
+$ git commit -m "DV branch commit second.txt"
+[dvbranch d6c79f5] DV branch commit second.txt
+ 1 file changed, 1 insertion(+)
+$ git switch master
+Switched to branch 'master'
+$ git branch -l
+  dvbranch
+  ffbranch
+* master
+$ echo "Dv branch redy for conflict" >> first.txt
+$ git add first.txt 
+$ git merge dvbranch
+Updating a697591..d6c79f5
+error: Your local changes to the following files would be overwritten by merge:
+	first.txt
+Please commit your changes or stash them before you merge.
+Aborting
+$ vi first.txt 
+$ echo "Readying for conflict" >> first.txt 
+$ git add first.txt 
+$ git commit -m "Dv branch ready for conflict"
+[master 7ccb6e9] Dv branch ready for conflict
+ 1 file changed, 1 insertion(+)
+$ git merge dvbranch
+Auto-merging first.txt
+CONFLICT (content): Merge conflict in first.txt
+Automatic merge failed; fix conflicts and then commit the result.
+$ git merge --help
+$ git commit -m "Change"
+U	first.txt
+error: Committing is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+fatal: Exiting because of an unresolved conflict.
+$ git commit
+U	first.txt
+error: Committing is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+fatal: Exiting because of an unresolved conflict.
+$ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Changes to be committed:
+	modified:   second.txt
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   first.txt
+
+$ git add first.txt 
+$ git commit -m "Merge Change"
+[master c3e52bb] Merge Change
+$ git merge dvbrnch
+merge: dvbrnch - not something we can merge
+$ git merge dvbranch
+Already up to date.
+
+$ git commit --amend -m "Second Merge almost killed me"
+[master 634efee] Second Merge almost killed me
+ Date: Wed Jun 29 05:52:20 2022 +0530
+$ git status
+On branch master
+nothing to commit, working tree clean
+$ git log
+commit 634efee212a7492f41a46cd6230012b3ed86d09f (HEAD -> master)
+Merge: 7ccb6e9 d6c79f5
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:52:20 2022 +0530
+
+    Second Merge almost killed me
+
+commit 7ccb6e964bf7e53b12fca1927cdfbee230048170
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:44:31 2022 +0530
+
+    Dv branch ready for conflict
+
+commit d6c79f5d26810abb8766d6dbcb1013ce77857aeb (dvbranch)
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:41:02 2022 +0530
+
+    DV branch commit second.txt
+
+commit 4f608c5ca1ec9ce3aab38aef056e13b856e77d9e
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:39:56 2022 +0530
+
+    DV branch commit first.txt
+
+commit a697591fa29119a5cc042625b2228bf91de4b831
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:35:36 2022 +0530
+
+    First Merge from FF branch to main
+
+commit 19e15d9fe1520d68b07a603ff06bbf751d00d473
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:34:13 2022 +0530
+
+    FF branch commit first.txt
+
+commit e3335d0332c9340205a6ace9bf7713ee12ce185b
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:32:46 2022 +0530
+
+    Second commit
+
+commit f399d82accf42c0b6ad6636fe0bb65dd7cf0a186
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:32:20 2022 +0530
+
+    First commit
+
+$ git branch stash-me
+$ git branch stash-fw
+$ git branch -l
+  dvbranch
+  ffbranch
+* master
+  stash-fw
+  stash-me
+$ git switch stash-me
+Switched to branch 'stash-me'
+$ echo "Not going to save here" > stashme.txt
+$ git add .
+$ git switch stash-fw
+A	stashme.txt
+Switched to branch 'stash-fw'
+$ git log --graph
+*   commit 634efee212a7492f41a46cd6230012b3ed86d09f (HEAD -> stash-fw, stash-me, master)
+|\  Merge: 7ccb6e9 d6c79f5
+| | Author: girishz8181 <girishz8181@gmail.com>
+| | Date:   Wed Jun 29 05:52:20 2022 +0530
+| | 
+| |     Second Merge almost killed me
+| | 
+| * commit d6c79f5d26810abb8766d6dbcb1013ce77857aeb (dvbranch)
+| | Author: girishz8181 <girishz8181@gmail.com>
+| | Date:   Wed Jun 29 05:41:02 2022 +0530
+| | 
+| |     DV branch commit second.txt
+| | 
+| * commit 4f608c5ca1ec9ce3aab38aef056e13b856e77d9e
+| | Author: girishz8181 <girishz8181@gmail.com>
+| | Date:   Wed Jun 29 05:39:56 2022 +0530
+| | 
+| |     DV branch commit first.txt
+| | 
+* | commit 7ccb6e964bf7e53b12fca1927cdfbee230048170
+|/  Author: girishz8181 <girishz8181@gmail.com>
+$ git branch -l
+  dvbranch
+  ffbranch
+  master
+* stash-fw
+  stash-me
+$ git commit -m "Commiting on stash-fw branch"
+[stash-fw 7587837] Commiting on stash-fw branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 stashme.txt
+$ git status
+On branch stash-fw
+nothing to commit, working tree clean
+$ git switch master
+Switched to branch 'master'
+$ echo "Stash Scenario 2" >> first.txt 
+$ git add first.txt 
+$ git commit -m "Stash scenario phase 2"
+[master d46a389] Stash scenario phase 2
+ 1 file changed, 1 insertion(+)
+$ git switch stash-fw
+Switched to branch 'stash-fw'
+$ echo "No way back" >> first.txt 
+$ git add first.txt 
+$ git switch master
+error: Your local changes to the following files would be overwritten by checkout:
+	first.txt
+Please commit your changes or stash them before you switch branches.
+Aborting
+$ git stash --help
+$ git stash show
+No stash entries found.
+$ git stash --help
+$ git status
+On branch stash-fw
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   first.txt
+
+$ git stash --help
+$ git stash save
+Saved working directory and index state WIP on stash-fw: 7587837 Commiting on stash-fw branch
+$ git status
+On branch stash-fw
+nothing to commit, working tree clean
+$ git log
+commit 7587837b400f46c05e5f0f27093bec4fa4b17718 (HEAD -> stash-fw)
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 06:12:59 2022 +0530
+
+    Commiting on stash-fw branch
+
+commit 634efee212a7492f41a46cd6230012b3ed86d09f (stash-me)
+Merge: 7ccb6e9 d6c79f5
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:52:20 2022 +0530
+
+    Second Merge almost killed me
+
+commit 7ccb6e964bf7e53b12fca1927cdfbee230048170
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:44:31 2022 +0530
+
+    Dv branch ready for conflict
+
+commit d6c79f5d26810abb8766d6dbcb1013ce77857aeb (dvbranch)
+Author: girishz8181 <girishz8181@gmail.com>
+Date:   Wed Jun 29 05:41:02 2022 +0530
+$ git switch master
+Switched to branch 'master'
+$ ls
+first.txt  second.txt
+$ wget https://github.com/girishz8181/git-concepts/blob/main/README.md
+--2022-06-29 06:29:18--  https://github.com/girishz8181/git-concepts/blob/main/README.md
+Resolving github.com (github.com)... 13.234.210.38
+Connecting to github.com (github.com)|13.234.210.38|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘README.md’
+
+README.md               [ <=>               ] 132.97K  --.-KB/s    in 0.1s    
+
+2022-06-29 06:29:18 (1.10 MB/s) - ‘README.md’ saved [136166]
+
+$
